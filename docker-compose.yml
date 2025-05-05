@@ -1,0 +1,128 @@
+version: '3.8'
+
+services:
+  # 🧩 Private Bootnode
+  private-bootnode:
+    image: ethereum/client-go:v1.10.26
+    command: bootnode --datadir /bootnode --port 30301 --verbosity 3
+    networks:
+      - node-private
+    volumes:
+      - ./shared/bootnode:/bootnode
+      - ./volumes/private-bootnode:/bootnode
+
+  # 🛠️ Miners (Private Network)
+  miner1:
+    image: ethereum/client-go:v1.10.26
+    entrypoint: /data/start.sh
+    env_file:
+      - ./env/miner.env
+      - ./env/miner1.env
+    volumes:
+      - ./volumes/miner1:/data
+      - ./shared/genesis.json:/data/genesis.json
+      - ./shared/start-miner.sh:/data/start.sh
+    networks:
+      - node-private
+
+  miner2:
+    image: ethereum/client-go:v1.10.26
+    entrypoint: /data/start.sh
+    env_file:
+      - ./env/miner.env
+      - ./env/miner2.env
+    volumes:
+      - ./volumes/miner2:/data
+      - ./shared/genesis.json:/data/genesis.json
+      - ./shared/start-miner.sh:/data/start.sh
+    networks:
+      - node-private
+
+  miner3:
+    image: ethereum/client-go:v1.10.26
+    entrypoint: /data/start.sh
+    env_file:
+      - ./env/miner.env
+      - ./env/miner3.env
+    volumes:
+      - ./volumes/miner3:/data
+      - ./shared/genesis.json:/data/genesis.json
+      - ./shared/start-miner.sh:/data/start.sh
+    networks:
+      - node-private
+
+  # 🔁 Bridge Fullnode (also a fullnode)
+  bridge-node:
+    image: ethereum/client-go:v1.10.26
+    entrypoint: /data/start.sh
+    env_file:
+      - ./env/node.env
+      - ./env/bridge-node.env
+    volumes:
+      - ./volumes/bridge-node:/data
+      - ./shared/genesis.json:/data/genesis.json
+      - ./shared/start-node.sh:/data/start.sh
+    networks:
+      - node-bridge
+      - node-private
+      - node-public
+
+  # 🌍 Public Bootnode
+  public-bootnode:
+    image: ethereum/client-go:v1.10.26
+    command: bootnode --datadir /bootnode --port 30301 --verbosity 3
+    networks:
+      - node-public
+    ports:
+      - "30301:30301"
+    volumes:
+      - ./shared/bootnode:/bootnode
+      - ./volumes/public-bootnode:/bootnode
+
+  # 🌐 Public Fullnodes
+  public-node1:
+    image: ethereum/client-go:v1.10.26
+    entrypoint: /data/start.sh
+    env_file:
+      - ./env/node.env
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./volumes/public-node1:/data
+      - ./shared/genesis.json:/data/genesis.json
+      - ./shared/start-node.sh:/data/start.sh
+    networks:
+      - node-public
+
+  public-node2:
+    image: ethereum/client-go:v1.10.26
+    entrypoint: /data/start.sh
+    env_file:
+      - ./env/node.env
+    ports:
+      - "8546:8545"
+    volumes:
+      - ./volumes/public-node2:/data
+      - ./shared/genesis.json:/data/genesis.json
+      - ./shared/start-node.sh:/data/start.sh
+    networks:
+      - node-public
+
+  public-node3:
+    image: ethereum/client-go:v1.10.26
+    entrypoint: /data/start.sh
+    env_file:
+      - ./env/node.env
+    ports:
+      - "8547:8545"
+    volumes:
+      - ./volumes/public-node3:/data
+      - ./shared/genesis.json:/data/genesis.json
+      - ./shared/start-node.sh:/data/start.sh
+    networks:
+      - node-public
+
+networks:
+  node-private:
+  node-bridge:
+  node-public:
