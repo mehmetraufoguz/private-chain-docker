@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Check if data directory exists; if not, initialize it
-if [ ! -d "/data/geth" ]; then
+if [ ! -d "/abc/data/geth" ]; then
     echo "Initializing Geth data directory..."
-    geth --datadir /data init /data/genesis.json
+    /abc/geth --datadir /abc/data init /abc/genesis.json
 fi
 
 # Start the Geth fullnode
-geth \
-    --datadir /data \
+/abc/geth \
+    --datadir /abc/data \
     --syncmode=$SYNCMODE \
     --cache=$CACHE \
     --networkid=$NETWORK_ID \

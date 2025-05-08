@@ -55,15 +55,16 @@ services:
 
   # 🔁 Bridge Fullnode (also a fullnode)
   bridge-node:
-    image: ethereum/client-go:v1.10.26
-    entrypoint: /data/start.sh
+    build:
+      context: .
+      dockerfile: docker/node-geth/Dockerfile
+    command: /abc/start.sh
     env_file:
       - ./env/node.env
       - ./env/bridge-node.env
     volumes:
-      - ./volumes/bridge-node:/data
-      - ./shared/genesis.json:/data/genesis.json
-      - ./shared/start-node.sh:/data/start.sh
+      - ./volumes/bridge-node:/abc/data
+      - ./shared/genesis.json:/abc/genesis.json
     networks:
       - node-bridge
       - node-private
@@ -82,44 +83,47 @@ services:
 
   # 🌐 Public Fullnodes
   public-node1:
-    image: ethereum/client-go:v1.10.26
-    entrypoint: /data/start.sh
+    build:
+      context: .
+      dockerfile: docker/node-geth/Dockerfile
+    command: /abc/start.sh
     env_file:
       - ./env/node.env
     ports:
       - "8545:8545"
     volumes:
-      - ./volumes/public-node1:/data
-      - ./shared/genesis.json:/data/genesis.json
-      - ./shared/start-node.sh:/data/start.sh
+      - ./volumes/public-node1:/abc/data
+      - ./shared/genesis.json:/abc/genesis.json
     networks:
       - node-public
 
   public-node2:
-    image: ethereum/client-go:v1.10.26
-    entrypoint: /data/start.sh
+    build:
+      context: .
+      dockerfile: docker/node-geth/Dockerfile
+    command: /abc/start.sh
     env_file:
       - ./env/node.env
     ports:
       - "8546:8545"
     volumes:
-      - ./volumes/public-node2:/data
-      - ./shared/genesis.json:/data/genesis.json
-      - ./shared/start-node.sh:/data/start.sh
+      - ./volumes/public-node2:/abc/data
+      - ./shared/genesis.json:/abc/genesis.json
     networks:
       - node-public
 
   public-node3:
-    image: ethereum/client-go:v1.10.26
-    entrypoint: /data/start.sh
+    build:
+      context: .
+      dockerfile: docker/node-geth/Dockerfile
+    command: /abc/start.sh
     env_file:
       - ./env/node.env
     ports:
       - "8547:8545"
     volumes:
-      - ./volumes/public-node3:/data
-      - ./shared/genesis.json:/data/genesis.json
-      - ./shared/start-node.sh:/data/start.sh
+      - ./volumes/public-node3:/abc/data
+      - ./shared/genesis.json:/abc/genesis.json
     networks:
       - node-public
 
