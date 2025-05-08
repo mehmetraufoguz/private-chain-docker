@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Check if data directory exists; if not, initialize it
-if [ ! -d "/data/geth" ]; then
+if [ ! -d "/abc/data/geth" ]; then
     echo "Initializing Geth data directory..."
-    geth --datadir /data init /data/genesis.json
-    cp -r /data/keystore /data/geth/keystore
+    /abc/geth --datadir /abc/data init /abc/genesis.json
+    cp -r /abc/data/keystore /abc/data/geth/keystore
 fi
 
 # Start the Geth miner
-geth \
-    --datadir /data \
+/abc/geth \
+    --datadir /abc/data \
     --syncmode=$SYNCMODE \
     --cache=$CACHE \
     --networkid=$NETWORK_ID \
@@ -17,7 +17,7 @@ geth \
     --port=$PEER_PORT \
     --allow-insecure-unlock \
     --unlock=$ADDRESS \
-    --password=/data/node.pwd \
+    --password=/abc/data/keystore/node.pwd \
     --mine \
     --miner.etherbase=$ADDRESS \
     --miner.gaslimit=$MINER_GASLIMIT \
