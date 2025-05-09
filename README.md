@@ -51,7 +51,50 @@ Before starting, make sure you have the following installed:
 
 Follow these steps to initialize and run the private Ethereum network.
 
-### 1. Compose Up Private Bootnode
+### 1. Create Required Folders
+
+- Create the necessary directories for miner data and keystores:
+
+  ```bash
+  mkdir -p volumes/miner1/keystore
+  mkdir -p volumes/miner2/keystore
+  mkdir -p volumes/miner3/keystore
+  ```
+
+### 2. Create `node.pwd` File
+
+- Create a `node.pwd` file and copy it to each of the `keystore` folders for the miners:
+
+  ```bash
+  echo "your_wallet_password" > volumes/miner1/keystore/node.pwd
+  echo "your_wallet_password" > volumes/miner2/keystore/node.pwd
+  echo "your_wallet_password" > volumes/miner3/keystore/node.pwd
+  ```
+
+- Make sure to replace `"your_wallet_password"` with the actual password for your wallet.
+
+### 3. Copy Wallet Keystores to Keystore Folders
+
+- Copy the Ethereum wallet keystore files to the appropriate `keystore` directories for each miner. For example:
+
+  - Copy **miner1's** wallet keystore to `volumes/miner1/keystore`.
+  - Copy **miner2's** wallet keystore to `volumes/miner2/keystore`.
+  - Copy **miner3's** wallet keystore to `volumes/miner3/keystore`.
+
+### 4. Create Miner Env Files
+
+- Copy the **`miner1.env.example`** file and create individual `.env` files for each miner (`miner1.env`, `miner2.env`, `miner3.env`).
+  
+  For each file, update the following:
+  - **`ADDRESS`**: Set the Ethereum address corresponding to each miner's keystore.
+  - **`ETH_STAT_MACHINE_ID`**: Unique ID for each miner.
+  - **`ETH_STAT_MACHINE_IP`**: IP address of the miner's machine.
+
+### 5. Update Miner Env with Keystore Addresses
+
+- In each miner's `.env` file (e.g., `miner1.env`, `miner2.env`, `miner3.env`), make sure the `ADDRESS` field matches the Ethereum address found in the respective keystore file.
+
+### 6. Compose Up Private Bootnode
 
 - Start the private bootnode using Docker Compose:
 
@@ -69,7 +112,7 @@ Follow these steps to initialize and run the private Ethereum network.
   - **`bridge-node.env`**: Set the `ENODE` to the bootnode `enode` URL.
   - **`miner.env`**: Update the `ENODE` in the miner configuration files with the bootnode `enode` URL.
 
-### 2. Compose Up Bridge Node
+### 7. Compose Up Bridge Node
 
 - Now, start the bridge node using Docker Compose:
 
@@ -79,7 +122,7 @@ Follow these steps to initialize and run the private Ethereum network.
 
 - The bridge node should now be running and connected to the private network through the bootnode.
 
-### 3. Update Node Env with Bridge Node Enode
+### 8. Update Node Env with Bridge Node Enode
 
 - After the bridge node is running, get its `enode` URL by checking the logs:
 
@@ -89,7 +132,7 @@ Follow these steps to initialize and run the private Ethereum network.
 
 - Update the **`node.env`** file to set the `ENODE` value to the bridge node's `enode` URL.
 
-### 4. Compose Up Full Nodes
+### 9. Compose Up Full Nodes
 
 - Start the full nodes connected to the bridge node:
 
@@ -98,49 +141,6 @@ Follow these steps to initialize and run the private Ethereum network.
   ```
 
 - The full nodes should now sync with the private network via the bridge node.
-
-### 5. Create Required Folders
-
-- Create the necessary directories for miner data and keystores:
-
-  ```bash
-  mkdir -p volumes/miner1/keystore
-  mkdir -p volumes/miner2/keystore
-  mkdir -p volumes/miner3/keystore
-  ```
-
-### 6. Create `node.pwd` File
-
-- Create a `node.pwd` file and copy it to each of the `keystore` folders for the miners:
-
-  ```bash
-  echo "your_wallet_password" > volumes/miner1/keystore/node.pwd
-  echo "your_wallet_password" > volumes/miner2/keystore/node.pwd
-  echo "your_wallet_password" > volumes/miner3/keystore/node.pwd
-  ```
-
-- Make sure to replace `"your_wallet_password"` with the actual password for your wallet.
-
-### 7. Copy Wallet Keystores to Keystore Folders
-
-- Copy the Ethereum wallet keystore files to the appropriate `keystore` directories for each miner. For example:
-
-  - Copy **miner1's** wallet keystore to `volumes/miner1/keystore`.
-  - Copy **miner2's** wallet keystore to `volumes/miner2/keystore`.
-  - Copy **miner3's** wallet keystore to `volumes/miner3/keystore`.
-
-### 8. Create Miner Env Files
-
-- Copy the **`miner1.env.example`** file and create individual `.env` files for each miner (`miner1.env`, `miner2.env`, `miner3.env`).
-  
-  For each file, update the following:
-  - **`ADDRESS`**: Set the Ethereum address corresponding to each miner's keystore.
-  - **`ETH_STAT_MACHINE_ID`**: Unique ID for each miner.
-  - **`ETH_STAT_MACHINE_IP`**: IP address of the miner's machine.
-
-### 9. Update Miner Env with Keystore Addresses
-
-- In each miner's `.env` file (e.g., `miner1.env`, `miner2.env`, `miner3.env`), make sure the `ADDRESS` field matches the Ethereum address found in the respective keystore file.
 
 ### 10. Compose Up Miners
 
