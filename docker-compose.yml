@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: docker/bootnode/Dockerfile
+    platform: linux/amd64
     command: /abc/bootnode --nodekey bootnode.key --verbosity 3
     networks:
       - node-private
@@ -15,6 +16,7 @@ services:
     build:
       context: .
       dockerfile: docker/miner-geth/Dockerfile
+    platform: linux/amd64
     command: /abc/start.sh
     env_file:
       - ./env/miner.env
@@ -29,6 +31,7 @@ services:
     build:
       context: .
       dockerfile: docker/miner-geth/Dockerfile
+    platform: linux/amd64
     command: /abc/start.sh
     env_file:
       - ./env/miner.env
@@ -43,6 +46,7 @@ services:
     build:
       context: .
       dockerfile: docker/miner-geth/Dockerfile
+    platform: linux/amd64
     command: /abc/start.sh
     env_file:
       - ./env/miner.env
@@ -58,6 +62,7 @@ services:
     build:
       context: .
       dockerfile: docker/node-geth/Dockerfile
+    platform: linux/amd64
     command: /abc/start.sh
     env_file:
       - ./env/node.env
@@ -74,6 +79,7 @@ services:
     build:
       context: .
       dockerfile: docker/bootnode/Dockerfile
+    platform: linux/amd64
     command: /abc/bootnode --nodekey bootnode.key --verbosity 3
     networks:
       - node-public
@@ -85,6 +91,7 @@ services:
     build:
       context: .
       dockerfile: docker/node-geth/Dockerfile
+    platform: linux/amd64
     command: /abc/start.sh
     env_file:
       - ./env/node.env
@@ -100,6 +107,7 @@ services:
     build:
       context: .
       dockerfile: docker/node-geth/Dockerfile
+    platform: linux/amd64
     command: /abc/start.sh
     env_file:
       - ./env/node.env
@@ -115,6 +123,7 @@ services:
     build:
       context: .
       dockerfile: docker/node-geth/Dockerfile
+    platform: linux/amd64
     command: /abc/start.sh
     env_file:
       - ./env/node.env
