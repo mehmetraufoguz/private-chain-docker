@@ -36,6 +36,7 @@ Before starting, make sure you have the following installed:
 - [Docker](https://docs.docker.com/get-docker/): Required to run containerized nodes.
 - [Docker Compose](https://docs.docker.com/compose/install/): Used to orchestrate multi-container setups.
 - [Git](https://git-scm.com/) (optional): For cloning the repository.
+- [Python 3](https://www.python.org/downloads/): Required to run the Python script.
 
 ### Environment Configuration Files
 
@@ -73,13 +74,39 @@ Follow these steps to initialize and run the private Ethereum network.
 
 - Make sure to replace `"your_wallet_password"` with the actual password for your wallet.
 
-### 3. Copy Wallet Keystores to Keystore Folders
+### 3. Generate and Copy Wallet Keystores
 
-- Copy the Ethereum wallet keystore files to the appropriate `keystore` directories for each miner. For example:
+To generate Ethereum wallet keystore files for each miner, use the provided Python script. First, ensure you have the necessary package installed:
 
-  - Copy **miner1's** wallet keystore to `volumes/miner1/keystore`.
-  - Copy **miner2's** wallet keystore to `volumes/miner2/keystore`.
-  - Copy **miner3's** wallet keystore to `volumes/miner3/keystore`.
+```bash
+pip3 install eth_account
+```
+
+Then, generate the keystore files by running the following command for each miner (replace `"your_wallet_password"` with your chosen wallet password and specify the correct path for each miner's `keystore` directory):
+
+For **miner1**:
+
+```bash
+python3 generate-keystore.py "your_wallet_password" "./volumes/miner1/keystore"
+```
+
+For **miner2**:
+
+```bash
+python3 generate-keystore.py "your_wallet_password" "./volumes/miner2/keystore"
+```
+
+For **miner3**:
+
+```bash
+python3 generate-keystore.py "your_wallet_password" "./volumes/miner3/keystore"
+```
+
+The script will generate a keystore file for each miner and store it in the respective `keystore` directory. Ensure that the generated Ethereum wallet keystore files are placed inside the corresponding `keystore` folders for each miner:
+
+* **miner1**: `volumes/miner1/keystore/`
+* **miner2**: `volumes/miner2/keystore/`
+* **miner3**: `volumes/miner3/keystore/`
 
 ### 4. Create Miner Env Files
 
