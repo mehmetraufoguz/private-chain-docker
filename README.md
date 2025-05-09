@@ -121,7 +121,28 @@ The script will generate a keystore file for each miner and store it in the resp
 
 - In each miner's `.env` file (e.g., `miner1.env`, `miner2.env`, `miner3.env`), make sure the `ADDRESS` field matches the Ethereum address found in the respective keystore file.
 
-### 6. Compose Up Private Bootnode
+### 6. Update `genesis.json` with Miner Addresses
+
+After generating the keystore files for your miners, you must update the `shared/genesis.json` file to include their Ethereum addresses in the `alloc` and `extradata` sections.
+
+1. **Locate Miner Addresses**: 
+   - Each miner's Ethereum address can be found in the generated keystore file inside their respective `keystore` folder.
+   - The address typically looks like: `0xeE153dF6265A444031f036C8AF78ad0d062d706d`.
+
+2. **Remove the `0x` Prefix**:
+   - Before inserting the addresses into `genesis.json`, remove the `0x` prefix.
+   - For example: `0xeE153dF6265A444031f036C8AF78ad0d062d706d` → `eE153dF6265A444031f036C8AF78ad0d062d706d`.
+
+3. **Update `shared/genesis.json`**:
+   - Open the file located at `shared/genesis.json`.
+   - Replace the following placeholders with the cleaned (no `0x`) miner addresses:
+     - Replace `YourMiner1Address` with miner1’s address (without `0x`).
+     - Replace `YourMiner2Address` with miner2’s address (without `0x`).
+     - Replace `YourMiner3Address` with miner3’s address (without `0x`).
+
+> ⚠️ Make sure the addresses are inserted correctly to avoid network initialization issues.
+
+### 7. Compose Up Private Bootnode
 
 - Start the private bootnode using Docker Compose:
 
@@ -139,7 +160,7 @@ The script will generate a keystore file for each miner and store it in the resp
   - **`bridge-node.env`**: Set the `ENODE` to the bootnode `enode` URL.
   - **`miner.env`**: Update the `ENODE` in the miner configuration files with the bootnode `enode` URL.
 
-### 7. Compose Up Bridge Node
+### 8. Compose Up Bridge Node
 
 - Now, start the bridge node using Docker Compose:
 
@@ -149,7 +170,7 @@ The script will generate a keystore file for each miner and store it in the resp
 
 - The bridge node should now be running and connected to the private network through the bootnode.
 
-### 8. Update Node Env with Bridge Node Enode
+### 9. Update Node Env with Bridge Node Enode
 
 - After the bridge node is running, get its `enode` URL by checking the logs:
 
@@ -159,7 +180,7 @@ The script will generate a keystore file for each miner and store it in the resp
 
 - Update the **`node.env`** file to set the `ENODE` value to the bridge node's `enode` URL.
 
-### 9. Compose Up Full Nodes
+### 10. Compose Up Full Nodes
 
 - Start the full nodes connected to the bridge node:
 
@@ -169,7 +190,7 @@ The script will generate a keystore file for each miner and store it in the resp
 
 - The full nodes should now sync with the private network via the bridge node.
 
-### 10. Compose Up Miners
+### 11. Compose Up Miners
 
 - Once all `.env` files are configured, start the miner nodes:
 
